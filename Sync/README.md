@@ -21,6 +21,9 @@ Aturan dasar Lamport Clock:
 ```bash
 docker compose -f compose/lamport.yml up -d
 ```
+<p align="center">
+  <img src="https://imgur.com/8l3njc8.png" alt="Docker Compose" width="300">
+</p>
 
 Output menampilkan container:
 
@@ -34,6 +37,10 @@ Output menampilkan container:
 Server menerima event dari client dan meng-update logical clock.
 Client mengirim event ke server.
 
+<p align="center">
+  <img src="https://imgur.com/JPIqZZi.png" alt="Docker Compose" width="300">
+</p>
+
 ```bash
 docker compose -f compose/lamport.yml exec lamport-server python server.py
 docker compose -f compose/lamport.yml exec lamport-client python client.py
@@ -45,7 +52,6 @@ Contoh output di server:
 clock: 4
 ```
 
-📌 **Kenapa outputnya begitu?**
 Di dalam `server.py` ada kode seperti:
 
 ```python
@@ -64,6 +70,9 @@ Hasil akhirnya ditampilkan di terminal (misalnya `clock: 4`).
 ```bash
 sudo tcpdump -nvi <bridge_name> -w lamport.pcap
 ```
+<p align="center">
+  <img src="https://imgur.com/UoUzLaM.png" alt="Docker Compose" width="300">
+</p>
 
 Output menunjukkan jumlah paket yang tertangkap.
 File `.pcap` bisa dianalisis di **Wireshark** untuk melihat komunikasi antar node.
@@ -75,6 +84,9 @@ File `.pcap` bisa dianalisis di **Wireshark** untuk melihat komunikasi antar nod
 Pada Wireshark, terlihat paket komunikasi antar container (`172.20.0.x`) menggunakan protokol TCP.
 Paket-paket ini membawa data event dengan timestamp Lamport yang digunakan untuk sinkronisasi logis.
 
+<p align="center">
+  <img src="https://imgur.com/6epCvrA.png" alt="Docker Compose" width="700">
+</p>
 ---
 
 ### 5. Menghentikan dan Membersihkan Container
@@ -82,6 +94,9 @@ Paket-paket ini membawa data event dengan timestamp Lamport yang digunakan untuk
 ```bash
 docker compose -f compose/lamport.yml down
 ```
+<p align="center">
+  <img src="https://imgur.com/rqM9L91.png" alt="Docker Compose" width="300">
+</p>
 
 Output akan menampilkan container `lamport-server`, `lamport-client`, serta network Docker telah dihentikan.
 

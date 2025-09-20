@@ -15,6 +15,10 @@ UDP lebih ringan dibanding TCP karena tidak memiliki mekanisme handshaking, sehi
 docker compose -f compose/udp.yml up -d
 ```
 
+<p align="center">
+  <img src="https://imgur.com/eyXkHbK.png" alt="UDP Docker Compose" width="300">
+</p>
+
 Output akan menampilkan proses build dan menjalankan container:
 
 * `udp-server`
@@ -27,6 +31,9 @@ Output akan menampilkan proses build dan menjalankan container:
 ```bash
 ip a
 ```
+<p align="center">
+  <img src="https://imgur.com/DnFbGZn.png" alt="UDP Docker Compose" width="300">
+</p>
 
 Output menampilkan daftar interface jaringan Docker beserta alamat IP.
 Bridge network (misalnya `br-862fa...`) digunakan untuk komunikasi antar container.
@@ -40,6 +47,9 @@ Gunakan `tcpdump` untuk melakukan capture paket UDP:
 ```bash
 sudo tcpdump -nvi <bridge_name> -w udp.pcap
 ```
+<p align="center">
+  <img src="https://imgur.com/WXNJ1fk.png" alt="UDP Docker Compose" width="300">
+</p>
 
 Output akan menunjukkan jumlah paket yang berhasil ditangkap.
 File `.pcap` ini bisa dianalisis dengan **Wireshark** atau **VSC-Webshark**.
@@ -53,6 +63,9 @@ Jalankan server UDP:
 ```bash
 docker compose -f compose/udp.yml exec udp-server python serverUDP.py
 ```
+<p align="center">
+  <img src="https://imgur.com/NC1Uw8r.png" alt="UDP Docker Compose" width="300">
+</p>
 
 Contoh output:
 
@@ -80,6 +93,9 @@ Client mengirimkan pesan ke server dan menerima balasan.
 ```bash
 docker compose -f compose/udp.yml exec udp-client python clientUDP.py
 ```
+<p align="center">
+  <img src="https://imgur.com/Aarb6D6.png" alt="UDP Docker Compose" width="300">
+</p>
 
 Contoh output:
 
@@ -87,7 +103,7 @@ Contoh output:
 Received from server: Hello, ('172.19.0.3', 50944). You said: Hello, UDP server!
 ```
 
-Di dalam `clientUDP.py` biasanya ada:
+Di dalam `clientUDP.py` ada:
 
 ```python
 client_socket.sendto(message.encode(), (server_ip, 12345))
@@ -101,9 +117,13 @@ print(f"Received from server: {data.decode()} from {addr}")
 ```python
 "Hello, {addr}. You said: {message}"
 ```
+<p align="center">
+  <img src="https://imgur.com/lV26Ti2.png" alt="UDP Docker Compose" width="700">
+</p>
 
 Output menunjukkan IP client (`172.19.0.3`) dan port sumber (`50944`) yang dipilih otomatis oleh OS.
 Itulah kenapa setiap run port client bisa berbeda, tapi pesan balasannya konsisten.
+
 
 ---
 
@@ -112,6 +132,9 @@ Itulah kenapa setiap run port client bisa berbeda, tapi pesan balasannya konsist
 ```bash
 docker compose -f compose/udp.yml down
 ```
+<p align="center">
+  <img src="https://imgur.com/SeBU43y.png" alt="UDP Docker Compose" width="300">
+</p>
 
 Output akan menampilkan bahwa container `udp-server`, `udp-client`, serta network Docker telah dihentikan dan dihapus.
 

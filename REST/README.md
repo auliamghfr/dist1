@@ -11,6 +11,9 @@ Biasanya digunakan dalam pengembangan **Web API** karena sederhana, ringan, dan 
 ## Langkah Praktik
 
 ### 1. Menjalankan Container REST
+<p align="center">
+  <img src="https://imgur.com/dTfCCMZ.png" alt="Rest Docker Compose" width="300">
+</p>
 
 ```bash
 docker compose -f compose/rest.yml up -d
@@ -28,6 +31,9 @@ Output akan menampilkan container:
 ```bash
 ip a
 ```
+<p align="center">
+  <img src="https://imgur.com/7SfhP7b.png" alt="Rest Docker Compose" width="300">
+</p>
 
 Perintah ini digunakan untuk melihat interface dan IP address dari container.
 Bridge network (misalnya `br-d44fc16962b6`) digunakan untuk komunikasi antar container.
@@ -41,8 +47,12 @@ Gunakan `tcpdump` untuk menangkap paket REST:
 ```bash
 sudo tcpdump -nvi <bridge_name> -w rest.pcap
 ```
+<p align="center">
+  <img src="https://imgur.com/2M3R8as.png" alt="Rest Docker Compose" width="300">
+</p>
 
 File `.pcap` ini bisa dianalisis di **Wireshark** atau **VSC-Webshark** untuk melihat request/response HTTP.
+
 
 ---
 
@@ -53,6 +63,9 @@ Server dijalankan dengan Flask:
 ```bash
 docker compose -f compose/rest.yml exec rest-server python server.py
 ```
+<p align="center">
+  <img src="https://imgur.com/fTfZvPV.png" alt="Rest Docker Compose" width="300">
+</p>
 
 Contoh output:
 
@@ -63,7 +76,6 @@ Contoh output:
 * Running on http://172.20.0.2:5151
 ```
 
-📌 **Kenapa outputnya begitu?**
 Di dalam `server.py` terdapat baris:
 
 ```python
@@ -81,6 +93,9 @@ Log `GET /add?a=2&b=3` menunjukkan bahwa client memanggil endpoint `/add` dengan
 ### 5. Menjalankan Client
 
 Client melakukan request ke server REST:
+<p align="center">
+  <img src="https://imgur.com/WZYKhbu.png" alt="Rest Docker Compose" width="300">
+</p>
 
 ```bash
 docker compose -f compose/rest.yml exec rest-client python client.py --op both -a 2 -b 3
@@ -93,8 +108,7 @@ add(2,3) = 5
 mul(2,3) = 6
 ```
 
-📌 **Kenapa outputnya begitu?**
-Isi `client.py` biasanya berisi:
+Isi `client.py` berisi:
 
 ```python
 resp_add = requests.get(f"http://{server_ip}:5151/add", params={"a": a, "b": b})
@@ -125,6 +139,10 @@ Karena itu output di client sama persis dengan perhitungan dari server.
 Pada Wireshark, terlihat paket HTTP GET dengan query string (`/add?a=2&b=3` dan `/mul?a=2&b=3`).
 Response `200 OK` berisi hasil operasi dari server (`5` dan `6`).
 
+<p align="center">
+  <img src="https://imgur.com/JYWhTXe.png" alt="Rest Docker Compose" width="700">
+</p>
+
 Ini membuktikan bahwa komunikasi berbasis REST berjalan sesuai desain: **client → request HTTP → server → response hasil**.
 
 ---
@@ -134,6 +152,9 @@ Ini membuktikan bahwa komunikasi berbasis REST berjalan sesuai desain: **client 
 ```bash
 docker compose -f compose/rest.yml down
 ```
+<p align="center">
+  <img src="https://imgur.com/Cu5BBct.png" alt="Rest Docker Compose" width="300">
+</p>
 
 Output menunjukkan container `rest-server`, `rest-client`, serta network Docker telah dihentikan.
 
