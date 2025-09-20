@@ -1,10 +1,10 @@
-version: "3.9"
 services:
   lamport-server:
     build:
       context: ../
       dockerfile: Sync/Dockerfile
     container_name: lamport-server
+    working_dir: /app/Sync
     command: ["python", "s_lamp.py"]
     volumes:
       - ../Sync:/app/Sync:rw
@@ -15,6 +15,7 @@ services:
     container_name: lamport-client
     depends_on:
       - lamport-server
-    command: ["tail", "-f", "/dev/null"]
+    working_dir: /app/Sync
+    command: ["python", "c_lamp.py"]
     volumes:
       - ../Sync:/app/Sync:rw

@@ -45,8 +45,19 @@ def main():
 
     # Membuat socket client dan menghubungkan ke Proses A
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('localhost', 12345))
-    print("Connected to Process A")
+    # Connect ke nama service docker-compose (lamport-server) dan coba beberapa kali jika belum siap
+    import time
+    for attempt in range(20):
+        try:
+            client_socket.connect(('lamport-server', 12345))
+            print("Connected to Process A")
+            break
+        except Exception as e:
+            print(f"Connect attempt {attempt+1}/20 failed: {e}, retrying in 0.5s")
+            time.sleep(0.5)
+    else:
+        print("Failed to connect to Process A after retries")
+        return
 
     # Terima pesan dari Proses A
     process_b.receive_message(client_socket)

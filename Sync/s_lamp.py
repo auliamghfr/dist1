@@ -45,21 +45,29 @@ def main():
 
     # Membuat socket server
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(('localhost', 12345))
+    # Bind ke 0.0.0.0 supaya container lain (client) bisa menghubungi service ini
+    server_socket.bind(('0.0.0.0', 12345))
     server_socket.listen(1)
     print("Process A is listening...")
 
-    conn, addr = server_socket.accept()
-    print(f"Connected by {addr}")
+    try:
+        while True:
+            conn, addr = server_socket.accept()
+            print(f"Connected by {addr}")
 
-    # Tambah saldo dan kirim pesan ke Proses B
-    process_a.add_balance(100)
-    process_a.send_message(f"Add $100", conn)
+            # Untuk setiap koneksi: lakukan satu pertukaran pesan
+            process_a.add_balance(100)
+            process_a.send_message(f"Add $100", conn)
 
-    # Terima pesan dari Proses B
-    process_a.receive_message(conn)
+            # Terima pesan dari Proses B
+            process_a.receive_message(conn)
 
-    conn.close()
+            conn.close()
+            print("Connection closed, waiting for next client...")
+    except KeyboardInterrupt:
+        print("Shutting down server")
+    finally:
+        server_socket.close()
 
 if __name__ == "__main__":
     main()

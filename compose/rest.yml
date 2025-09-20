@@ -5,7 +5,7 @@ services:
       dockerfile: REST/Dockerfile
     container_name: rest-server
     ports:
-      - "8080:5151"
+      - "8081:5151" # changed from 8080 because host port 8080 is in use on this machine
     volumes:
       - ../REST:/app:rw
     restart: unless-stopped
