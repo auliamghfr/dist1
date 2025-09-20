@@ -12,7 +12,10 @@ Arsitektur MQTT terdiri dari: **Publisher → Broker → Subscriber**.
 
 ### 1. Menjalankan Broker, Publisher, dan Subscriber
 
-![alt text](image.png)
+<p align="center">
+  <img src="https://i.imgur.com/kdVbpi1.png" alt="MQTT Docker Compose" width="300">
+</p>
+
 ```bash
 docker compose -f compose/mqtt.yml up -d
 ```
@@ -28,6 +31,9 @@ Output yang dihasilkan akan menampilkan tiga container berjalan:
 ### 2. Menjalankan Publisher
 
 Publisher mengirimkan data suhu secara periodik ke broker.
+<p align="center">
+  <img src="https://i.imgur.com/TWHcmN8.png" alt="MQTT Docker Compose" width="300">
+</p>
 
 ```bash
 docker compose -f compose/mqtt.yml exec mqtt-pub python pub.py
@@ -47,6 +53,10 @@ Published: Suhu: 28°C
 
 Subscriber menerima pesan dari broker berdasarkan topik yang telah didaftarkan.
 
+<p align="center">
+  <img src="https://i.imgur.com/DTNC0Se.png" alt="MQTT Docker Compose" width="300">
+</p>
+
 ```bash
 docker compose -f compose/mqtt.yml exec mqtt-sub python sub.py
 ```
@@ -61,19 +71,11 @@ Received message: Suhu: 28°C (Topic: sister/temp)
 
 ---
 
-### 4. Melihat Lalu Lintas Jaringan MQTT
+### 4. Mengecek Interface dan IP
 
-Untuk memverifikasi komunikasi di level jaringan, dapat digunakan `tcpdump`:
-
-```bash
-sudo tcpdump -nvi <bridge_name> port 1883
-```
-
-Output akan menunjukkan paket yang dikirim melalui protokol MQTT.
-
----
-
-### 5. Mengecek Interface dan IP
+<p align="center">
+  <img src="https://imgur.com/aVY9Wn1.png" alt="MQTT Docker Compose" width="300">
+</p>
 
 ```bash
 ip a
@@ -82,20 +84,41 @@ ip a
 Perintah ini menampilkan daftar interface jaringan dan alamat IP yang digunakan container.
 
 ---
+### 5. Melihat Lalu Lintas Jaringan MQTT
+
+Untuk memverifikasi komunikasi di level jaringan, dapat digunakan `tcpdump`:
+
+<p align="center">
+  <img src="https://imgur.com/iTLyF9O.png" alt="MQTT Docker Compose" width="300">
+</p>
+
+```bash
+sudo tcpdump -nvi <bridge_name> -w mqtt.pcap
+```
+
+Output akan menunjukkan paket yang dikirim melalui protokol MQTT.
+
+---
+
+
 
 ### 6. Monitoring Realtime
 
-Monitoring jaringan dapat dilakukan menggunakan tools seperti:
+Monitoring jaringan dapat dilakukan menggunakan tools vsc-webshark
 
-* `iftop`
-* `bmon`
-* `btop`
+<p align="center">
+  <img src="https://imgur.com/d0BfQs5.png" alt="MQTT Docker Compose" width="400">
+</p>
 
 Untuk melihat aktivitas trafik MQTT secara langsung.
 
 ---
 
 ### 7. Menghentikan dan Membersihkan Container
+
+<p align="center">
+  <img src="https://imgur.com/4w20dQb.png" alt="MQTT Docker Compose" width="300">
+</p>
 
 ```bash
 docker compose -f compose/mqtt.yml down
