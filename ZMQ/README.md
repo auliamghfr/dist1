@@ -75,7 +75,7 @@ Received: WAKTU Fri Sep 19 12:51:13 2025
 ```
 untuk visualisasinya sebagai berikut :
 <p align="center">
-  <img src="https://imgur.com/vciaWGP.png" alt="ZMQ Docker Compose" width="300">
+  <img src="https://imgur.com/vciaWGP.png" alt="ZMQ Docker Compose" width="700">
 </p>
 
 ---
