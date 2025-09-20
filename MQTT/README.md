@@ -107,7 +107,7 @@ Output akan menunjukkan paket yang dikirim melalui protokol MQTT.
 Monitoring jaringan dapat dilakukan menggunakan tools vsc-webshark
 
 <p align="center">
-  <img src="https://imgur.com/d0BfQs5.png" alt="MQTT Docker Compose" width="400">
+  <img src="https://imgur.com/d0BfQs5.png" alt="MQTT Docker Compose" width="700">
 </p>
 
 Untuk melihat aktivitas trafik MQTT secara langsung.
